@@ -4,6 +4,7 @@ using Acaddemicts.EF.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Acaddemicts.EF.Model.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    partial class SchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20220924114842_AddPersons")]
+    partial class AddPersons
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace Acaddemicts.EF.Model.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"), 1L, 1);
 
-                    b.Property<int>("AdministratorId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -40,8 +39,6 @@ namespace Acaddemicts.EF.Model.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("DepartmentId");
-
-                    b.HasIndex("AdministratorId");
 
                     b.ToTable("Departments");
                 });
@@ -72,22 +69,6 @@ namespace Acaddemicts.EF.Model.Migrations
                     b.HasKey("PersonId");
 
                     b.ToTable("Persons");
-                });
-
-            modelBuilder.Entity("Acaddemicts.EF.Business.Department", b =>
-                {
-                    b.HasOne("Acaddemicts.EF.Business.Person", "Administrator")
-                        .WithMany("Departments")
-                        .HasForeignKey("AdministratorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Administrator");
-                });
-
-            modelBuilder.Entity("Acaddemicts.EF.Business.Person", b =>
-                {
-                    b.Navigation("Departments");
                 });
 #pragma warning restore 612, 618
         }

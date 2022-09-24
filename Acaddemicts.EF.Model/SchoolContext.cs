@@ -6,6 +6,7 @@ namespace Acaddemicts.EF.Model
     public class SchoolContext: DbContext
     {
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Person> Persons { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
