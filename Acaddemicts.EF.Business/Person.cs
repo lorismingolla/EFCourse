@@ -10,8 +10,7 @@ namespace Acaddemicts.EF.Business
     {
         public Person()
         {
-            FirstName = "Foo";
-            LastName = "Bar";
+            Departments = new List<Department>();
         }
 
         public int PersonId { get; set; }
