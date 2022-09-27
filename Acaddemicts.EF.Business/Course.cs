@@ -11,6 +11,7 @@ namespace Acaddemicts.EF.Business
         public Course()
         {
             CourseInstructors = new List<CourseInstructor>();
+            CourseGrades = new List<CourseGrade>();
         }
 
         public int CourseId { get; set; }
@@ -19,5 +20,6 @@ namespace Acaddemicts.EF.Business
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
         public ICollection<CourseInstructor> CourseInstructors { get; set; }
+        public ICollection<CourseGrade> CourseGrades { get; set; }
     }
 }

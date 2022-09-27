@@ -71,6 +71,15 @@ namespace Acaddemicts.EF.Model
             modelBuilder.Entity<Course>()
                 .Property(p => p.Title)
                 .HasMaxLength(100);
+
+            modelBuilder.Entity<CourseGrade>()
+                .HasOne(x => x.Course).WithMany(x => x.CourseGrades)
+                .OnDelete(DeleteBehavior.Restrict);
+ 
+            modelBuilder.Entity<CourseGrade>()
+                .HasOne(x => x.Student).WithMany(x => x.CourseGrades)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }
