@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Acaddemicts.EF.Business
 {
-    public class Course
+    public abstract class Course
     {
         public int CourseId { get; set; }
         public string Title { get; set; }

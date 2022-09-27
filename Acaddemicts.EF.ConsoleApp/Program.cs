@@ -44,7 +44,24 @@ namespace Acaddemicts.EF.ConsoleApp
                 //How do you add Student and Instructor?
                 //context.Persons.Add(new Student() { FirstName = "Marty", LastName = "McFly", EnrollmentDate = new DateTime(1985, 1, 1)});
                 //context.Persons.Add(new Instructor() { FirstName = "Emmet", LastName = "Brown", HireDate = new DateTime(1955, 1, 1) });  ;
-                //context.SaveChanges();
+
+                var department = new Department()
+                {
+                    Name = "MSCC",
+                    AdministratorId = 1,
+                    Courses = {
+                        new OnlineCourse() { Credits = 1, Title = "Angular", Url = "https://angular.io" },
+                        new OnlineCourse() { Credits = 2, Title = "HTML", Url = "https://www.w3schools.com/html/default.asp"},
+                        new OnlineCourse() { Credits = 3, Title = "Entity Framework", Url = "https://www.entityframeworktutorial.net/"},
+                        new OnSiteCourse() { Credits = 1, Title = "CV training", Days = "2", Location = "Huizingen", Time = DateTime.Now },
+                        new OnSiteCourse() { Credits = 1, Title = "Ecodrive", Days = "1", Location = "Huizingen", Time = DateTime.Now }
+                    }
+                };
+
+                context.Departments.Add(department);
+
+
+                context.SaveChanges();
             }
 
             using (var context = new SchoolContext())

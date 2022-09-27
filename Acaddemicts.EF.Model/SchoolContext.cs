@@ -23,6 +23,11 @@ namespace Acaddemicts.EF.Model
                .HasDiscriminator<bool>("IsEnrolled")
                .HasValue<Instructor>(false)
                .HasValue<Student>(true);
+
+            modelBuilder.Entity<Course>()
+                .HasDiscriminator<bool>("Online")
+                .HasValue<OnSiteCourse>(false)
+                .HasValue<OnlineCourse>(true);
         }
     }
 }
