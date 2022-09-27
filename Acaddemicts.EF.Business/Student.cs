@@ -9,5 +9,6 @@ namespace Acaddemicts.EF.Business
     public class Student : Person
     { 
         public DateTime EnrollmentDate { get; set; }
+        public ICollection<CourseGrade> CourseGrades { get; set; } 
     }
 }

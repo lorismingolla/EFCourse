@@ -4,6 +4,7 @@ using Acaddemicts.EF.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Acaddemicts.EF.Model.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    partial class SchoolContextModelSnapshot : ModelSnapshot
+    [Migration("20220927174806_CourseGrade")]
+    partial class CourseGrade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +42,7 @@ namespace Acaddemicts.EF.Model.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CourseId");
 
@@ -78,21 +79,6 @@ namespace Acaddemicts.EF.Model.Migrations
                     b.ToTable("CourseGrade");
                 });
 
-            modelBuilder.Entity("Acaddemicts.EF.Business.CourseInstructor", b =>
-                {
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InstructorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CourseId", "InstructorId");
-
-                    b.HasIndex("InstructorId");
-
-                    b.ToTable("CourseInstructor");
-                });
-
             modelBuilder.Entity("Acaddemicts.EF.Business.Department", b =>
                 {
                     b.Property<int>("DepartmentId")
@@ -111,8 +97,7 @@ namespace Acaddemicts.EF.Model.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -135,15 +120,13 @@ namespace Acaddemicts.EF.Model.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonId"), 1L, 1);
 
                     b.Property<string>("FirstName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsEnrolled")
                         .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PersonId");
 
@@ -167,8 +150,7 @@ namespace Acaddemicts.EF.Model.Migrations
                     b.HasBaseType("Acaddemicts.EF.Business.Course");
 
                     b.Property<string>("Url")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasDiscriminator().HasValue(true);
                 });
@@ -178,12 +160,10 @@ namespace Acaddemicts.EF.Model.Migrations
                     b.HasBaseType("Acaddemicts.EF.Business.Course");
 
                     b.Property<string>("Days")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Time")
                         .HasColumnType("datetime2");
@@ -227,25 +207,6 @@ namespace Acaddemicts.EF.Model.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("Acaddemicts.EF.Business.CourseInstructor", b =>
-                {
-                    b.HasOne("Acaddemicts.EF.Business.Course", "Course")
-                        .WithMany("CourseInstructors")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Acaddemicts.EF.Business.Instructor", "Instructor")
-                        .WithMany("CourseInstructors")
-                        .HasForeignKey("InstructorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Course");
-
-                    b.Navigation("Instructor");
-                });
-
             modelBuilder.Entity("Acaddemicts.EF.Business.Department", b =>
                 {
                     b.HasOne("Acaddemicts.EF.Business.Person", "Administrator")
@@ -261,11 +222,6 @@ namespace Acaddemicts.EF.Model.Migrations
                     b.Navigation("Administrator");
                 });
 
-            modelBuilder.Entity("Acaddemicts.EF.Business.Course", b =>
-                {
-                    b.Navigation("CourseInstructors");
-                });
-
             modelBuilder.Entity("Acaddemicts.EF.Business.Department", b =>
                 {
                     b.Navigation("Courses");
@@ -273,8 +229,6 @@ namespace Acaddemicts.EF.Model.Migrations
 
             modelBuilder.Entity("Acaddemicts.EF.Business.Instructor", b =>
                 {
-                    b.Navigation("CourseInstructors");
-
                     b.Navigation("Departments");
                 });
 

@@ -24,10 +24,53 @@ namespace Acaddemicts.EF.Model
                .HasValue<Instructor>(false)
                .HasValue<Student>(true);
 
+            modelBuilder.Entity<Person>()
+                .Property(p => p.FirstName)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Person>()
+                .Property(p => p.LastName)
+                .HasMaxLength(50);
+
             modelBuilder.Entity<Course>()
                 .HasDiscriminator<bool>("Online")
                 .HasValue<OnSiteCourse>(false)
                 .HasValue<OnlineCourse>(true);
+
+            modelBuilder.Entity<CourseGrade>()
+                .Property(x => x.Grade)
+                .HasColumnType("decimal(3, 2)");
+
+            modelBuilder.Entity<CourseInstructor>()
+                .HasKey(ci => new { ci.CourseId, ci.InstructorId });
+
+            modelBuilder.Entity<CourseInstructor>()
+                .HasOne(x => x.Course).WithMany(x => x.CourseInstructors)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CourseInstructor>()
+                .HasOne(x => x.Instructor).WithMany(x => x.CourseInstructors)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Department>()
+                .Property(p => p.Name)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<OnSiteCourse>()
+                .Property(p => p.Days)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<OnSiteCourse>()
+                .Property(p => p.Location)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<OnlineCourse>()
+                .Property(p => p.Url)
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<Course>()
+                .Property(p => p.Title)
+                .HasMaxLength(100);
         }
     }
 }

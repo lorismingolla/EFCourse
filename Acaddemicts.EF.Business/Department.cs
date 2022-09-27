@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +20,8 @@ namespace Acaddemicts.EF.Business
         public int AdministratorId { get; set; }
         public virtual Person Administrator { get; set; }
         public ICollection<Course> Courses { get; set; }
+
+        [DataType(DataType.Currency)]
+        public decimal Budget { get; set; }
     }
 }
