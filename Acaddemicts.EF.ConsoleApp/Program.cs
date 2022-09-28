@@ -43,9 +43,10 @@ namespace Acaddemicts.EF.ConsoleApp
                             PrintDepartmentsLessThen3Credits(ctx);
                             Console.WriteLine(input);
                             break;
-                        case '7':
+                        case "7":
                             Console.WriteLine(input);
                             PrintStudentOrderedWithGrade(ctx);
+                            break;
                         case "8":
                             Console.WriteLine(input);
                             PrintUniqueInstructorNames(ctx);
@@ -123,10 +124,10 @@ namespace Acaddemicts.EF.ConsoleApp
             var instructors = ctx.Persons.OfType<Instructor>()
                             .Select(x => new { x.LastName, x.FirstName, Seniority= (DateTime.Now.Year - x.HireDate.Year)})
                             .OrderByDescending(x => x.Seniority)
-                            .ToList()
+                            .ToList();
             foreach (var instructor in instructors)
             {
-                Console.WriteLine($"{instructor.PersonId}: {instructor.FirstName} {instructor.LastName}");
+                Console.WriteLine($" {instructor.FirstName} {instructor.LastName}: {instructor.Seniority}  years");
             }
         }
 
@@ -135,7 +136,7 @@ namespace Acaddemicts.EF.ConsoleApp
             var students = ctx.Persons.OfType<Student>()
                             .Where(x => x.EnrollmentDate < new DateTime(2004, 9, 1))
                             .Select(x => new { x.LastName, x.FirstName, x.EnrollmentDate})
-                            .ToList()
+                            .ToList();
             foreach (Student student in students)
             {
                 Console.WriteLine($"{student.FirstName}, {student.LastName}");
@@ -157,7 +158,7 @@ namespace Acaddemicts.EF.ConsoleApp
                                 .OrderBy(x => x.Student.LastName)
                                 .ThenBy(x => x.Course.Title)
                                 .Where(x => x.Grade.HasValue)
-                                .Select(x => $"{x.Student.LastName} {x.Student.FirstName} {x.Course.Title} {x.Grade:0.0}").ToList()
+                                .Select(x => $"{x.Student.LastName} {x.Student.FirstName} {x.Course.Title} {x.Grade:0.0}").ToList();
         }
 
         private static void PrintUniqueInstructorNames(SchoolContext ctx)
@@ -195,7 +196,7 @@ namespace Acaddemicts.EF.ConsoleApp
         {
             var courses = ctx.Courses
                                 .Where(x => x.CourseGrades.Any(y => y.Grade.HasValue))
-                                .Select(x => $"{x.Title} {x.CourseGrades.Min(y => y.Grade):0.00}").ToList()
+                                .Select(x => $"{x.Title} {x.CourseGrades.Min(y => y.Grade):0.00}").ToList();
             foreach (Course course in courses)
             {
                 Console.WriteLine($"{course.Title}: {course.CourseGrades.OrderBy(x => x.Grade).First()}");
@@ -226,7 +227,7 @@ namespace Acaddemicts.EF.ConsoleApp
         {
             var courses = ctx.Courses
                .Where(x => x.Title.Contains("et"))
-               .Select(x => x.Title).ToList
+               .Select(x => x.Title).ToList();
             foreach (var course in courses)
             {
                 Console.WriteLine(course.Name);
