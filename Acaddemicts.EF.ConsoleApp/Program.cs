@@ -80,8 +80,11 @@ namespace Acaddemicts.EF.ConsoleApp
 
         private static void PrintOnSiteCourses(SchoolContext ctx)
         {
-            var courses = ctx.Courses.OfType<OnSiteCourse>().ToArray();
-            foreach (OnSiteCourse course in courses)
+            var courses = ctx.Courses.OfType<OnSiteCourse>()
+                            .OrderBy(x => x.Title)
+                            .Select(x => new { x.Title, x.Location, x.Time, x.Days })
+                            .ToList();
+            foreach (var course in courses)
             {
                 Console.WriteLine(course.Title);
             }
@@ -89,8 +92,12 @@ namespace Acaddemicts.EF.ConsoleApp
 
         private static void PrintOnlineCourses(SchoolContext ctx)
         {
-            var courseNames = ctx.Courses.OfType<OnlineCourse>().Select(x => x.Title).ToArray();
-            foreach (string course in courseNames)
+            var courseNames = ctx.Courses.OfType<OnlineCourse>()
+                            .OrderBy(x => x.Title)
+                            .ThenBy(x => x.Url)
+                            .Select(x => new { x.Title, x.Url })
+                            .ToList();
+            foreach (var course in courseNames)
             {
                 Console.WriteLine(course);
             }
@@ -98,17 +105,22 @@ namespace Acaddemicts.EF.ConsoleApp
 
         private static void PrintStudentDetails(SchoolContext ctx)
         {
-            var students = ctx.Persons.OfType<Student>().ToArray();
-            foreach (Student student in students)
+            var students = ctx.Persons.OfType<Student>()
+                            .OrderBy(x => x.LastName)
+                            .Select(x => new { x.LastName, x.FirstName, x.EnrollmentDate.Year })
+                            .ToList();
+            foreach (var student in students)
             {
-                Console.WriteLine($"{student.PersonId}: {student.FirstName} {student.LastName}");
+                Console.WriteLine($"{student.FirstName} {student.LastName}");
             }
         }
 
         private static void PrintInstructorDetails(SchoolContext ctx)
         {
-            var instructors = ctx.Persons.OfType<Instructor>().ToArray();
-            foreach (Instructor instructor in instructors)
+            var instructors = ctx.Persons.OfType<Instructor>()
+                            .Select(x => new { x.LastName, x.FirstName, Seniority = (DateTime.Now.Year - x.HireDate.Year) })
+                            .OrderByDescending(x => x.Seniority);
+            foreach (var instructor in instructors)
             {
                 Console.WriteLine($"{instructor.PersonId}: {instructor.FirstName} {instructor.LastName}");
             }
