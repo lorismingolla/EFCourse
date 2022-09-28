@@ -73,7 +73,7 @@ namespace Acaddemicts.EF.ConsoleApp
                             break;
                         case "14":
                             Console.WriteLine(input);
-                            PrintNamesEnrolled2004(ctx);
+                            CoursesContainingET(ctx);
                             break;
                         case "x":
                             break;
