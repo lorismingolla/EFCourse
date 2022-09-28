@@ -137,9 +137,9 @@ namespace Acaddemicts.EF.ConsoleApp
                             .Where(x => x.EnrollmentDate < new DateTime(2004, 9, 1))
                             .Select(x => new { x.LastName, x.FirstName, x.EnrollmentDate})
                             .ToList();
-            foreach (Student student in students)
+            foreach (var student in students)
             {
-                Console.WriteLine($"{student.FirstName}, {student.LastName}");
+                Console.WriteLine($"{student.FirstName}, {student.LastName} enrolled on: {student.EnrollmentDate}");
             }
         }
 
@@ -177,7 +177,7 @@ namespace Acaddemicts.EF.ConsoleApp
                                 .Select(x => x.StudentId)
                                 .Distinct()
                                 .Count();
-                Console.WriteLine($"{student} students");
+                Console.WriteLine($"{students} students");
         }
 
         private static void PrintStudentAvgOrderByName(SchoolContext ctx)
@@ -186,9 +186,9 @@ namespace Acaddemicts.EF.ConsoleApp
                                 .OrderBy(x => x.LastName)
                                 .ThenBy(x => x.FirstName)
                                 .Select(x => $"{x.LastName} {x.FirstName} {x.CourseGrades.Average(y => y.Grade):0.00}").ToList();
-            foreach(Student student in students)
+            foreach(var student in students)
             {
-                Console.WriteLine($"{student.FirstName} {student.LastName} AVG: {student.CourseGrades.Select(x => x.Grade).Average()}");
+                Console.WriteLine(student);
             }
         }
 
@@ -197,9 +197,9 @@ namespace Acaddemicts.EF.ConsoleApp
             var courses = ctx.Courses
                                 .Where(x => x.CourseGrades.Any(y => y.Grade.HasValue))
                                 .Select(x => $"{x.Title} {x.CourseGrades.Min(y => y.Grade):0.00}").ToList();
-            foreach (Course course in courses)
+            foreach (var course in courses)
             {
-                Console.WriteLine($"{course.Title}: {course.CourseGrades.OrderBy(x => x.Grade).First()}");
+                Console.WriteLine(course);
             }
         }
 
@@ -210,7 +210,7 @@ namespace Acaddemicts.EF.ConsoleApp
                                 .Select(x => $"{x.Name} {x.Courses.SelectMany(y => y.CourseGrades).Max(z => z.Grade):0.00}").ToList();
             foreach (var department in departments)
             {
-                Console.WriteLine($"{department.Name}: {department.Courses.OrderBy(x => x.CourseGrades.Select(x => x.Grade))}");
+                Console.WriteLine(department);
             }
         }
 
@@ -230,7 +230,7 @@ namespace Acaddemicts.EF.ConsoleApp
                .Select(x => x.Title).ToList();
             foreach (var course in courses)
             {
-                Console.WriteLine(course.Name);
+                Console.WriteLine(course);
             }
         }
     }
